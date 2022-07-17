@@ -1,7 +1,6 @@
 package com.mustafahakan.Converters;
 
-import com.mustafahakan.Converters.*;
-import com.mustafahakan.Operations.Language;
+import com.mustafahakan.Language;
 
 public class ConverterFactory {
     public BaseWordToIntegerConverter createWordToIntegerConverter(Language language) {

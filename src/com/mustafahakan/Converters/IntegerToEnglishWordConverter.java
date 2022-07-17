@@ -21,7 +21,7 @@ public class IntegerToEnglishWordConverter extends BaseIntegerToWordConverter {
         teens = ((EnglishDictionary) dictionary).getTeens();
     }
 
-    // Methods
+    // Method
     @Override
     protected void parseNumber(char[] str_num, int start, int end, List<String> parsed) {
         int N = end - start;

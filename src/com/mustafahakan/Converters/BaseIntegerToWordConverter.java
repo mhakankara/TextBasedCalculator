@@ -23,6 +23,7 @@ public abstract class BaseIntegerToWordConverter extends BaseConverter {
     public final String numberToWords(int num) {
         // Parse the input integer
         char[] str_num = Integer.toString(num).toCharArray();
+
         List<String> parsed = new LinkedList<>();
 
         parseNumber(str_num, 0, str_num.length, parsed);

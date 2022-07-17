@@ -16,5 +16,6 @@ public class TurkishDictionary extends AbstractDictionary {
                 "5: 'Elli', 6: 'Altmış', 7: 'Yetmiş', 8: Seksen', 9: 'Doksan'}");
 
         decimals = strToMap("{2: 'Yüz', 3: 'Bin', 6: 'Milyon', 9: 'Milyar'}");
+
     }
 }

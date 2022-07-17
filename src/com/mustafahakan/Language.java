@@ -1,4 +1,4 @@
-package com.mustafahakan.Operations;
+package com.mustafahakan;
 
 public enum Language {
     TURKISH,

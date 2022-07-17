@@ -9,7 +9,7 @@ public class TurkishWordToIntegerConverter extends BaseWordToIntegerConverter {
         super();
     }
 
-    // Methods
+    // Method
     @Override
     protected void initMaps() {
         dictionary = new TurkishDictionary();

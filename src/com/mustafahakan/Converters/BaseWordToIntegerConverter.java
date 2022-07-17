@@ -22,9 +22,20 @@ public class BaseWordToIntegerConverter extends BaseConverter {
         }
     }
 
+    private void capitalize(String[] words) {
+        for (int i = 0; i < words.length; i++) {
+            String word = words[i];
+
+            if (word != null && !word.isEmpty()) {
+                words[i] = word.substring(0, 1).toUpperCase() + word.substring(1);
+            }
+        }
+    }
+
     public final int wordsToNumbers(String word_num) {
         // Parse the input integer
         String[] word_arr = word_num.split(" ");
+        capitalize(word_arr);
 
         return parseWord(word_arr, 0, word_arr.length, 0, 0);
     }
