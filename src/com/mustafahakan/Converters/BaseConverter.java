@@ -6,13 +6,15 @@ import java.util.Map;
 
 public abstract class BaseConverter {
 
+    // Properties
     protected AbstractDictionary dictionary;
-    protected Map<String, String> ties;
-    protected Map<String, String> digits;
+    protected Map<String, String> units;
+    protected Map<String, String> tys;
     protected Map<String, String> decimals;
 
     // Constructor
-    public BaseConverter() {
+    public BaseConverter(AbstractDictionary dictionary) {
+        this.dictionary = dictionary;
         initMaps();
     }
 

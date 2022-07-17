@@ -1,19 +1,21 @@
 package com.mustafahakan.Converters;
 
+import com.mustafahakan.Converters.Dictionaries.AbstractDictionary;
+
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import static java.lang.Integer.parseInt;
 
-public abstract class BaseWordToIntegerConverter extends BaseConverter {
+public class WordToIntegerConverter extends BaseConverter {
 
     // Property
     public Locale locale;
 
     // Constructor
-    public BaseWordToIntegerConverter() {
-        super();
+    public WordToIntegerConverter(AbstractDictionary dictionary) {
+        super(dictionary);
         this.locale = new Locale("en", "US");
     }
 
@@ -22,8 +24,8 @@ public abstract class BaseWordToIntegerConverter extends BaseConverter {
     protected void initMaps() {
         if(dictionary != null) {
             decimals = reverseMap(dictionary.getDecimals());
-            ties = reverseMap(dictionary.getTies());
-            digits = reverseMap(dictionary.getDigits());
+            tys = reverseMap(dictionary.getTys());
+            units = reverseMap(dictionary.getUnits());
         }
     }
 
@@ -47,7 +49,7 @@ public abstract class BaseWordToIntegerConverter extends BaseConverter {
         return parseWord(word_arr, 0, word_arr.length, 0, 0);
     }
 
-    protected int parseWord(String[] word_arr, int start, int end, int current, int total) {
+    private int parseWord(String[] word_arr, int start, int end, int current, int total) {
 
         int N = end - start;
 
@@ -76,13 +78,13 @@ public abstract class BaseWordToIntegerConverter extends BaseConverter {
         }
 
         else {
-            if (ties.containsKey(first)) {
-                value = 10 * parseInt(ties.get(first));
+            if (tys.containsKey(first)) {
+                value = 10 * parseInt(tys.get(first));
             }
 
 
-            else if (digits.containsKey(first)) {
-                value = parseInt(digits.get(first));
+            else if (units.containsKey(first)) {
+                value = parseInt(units.get(first));
             }
 
             current += value;
@@ -91,7 +93,7 @@ public abstract class BaseWordToIntegerConverter extends BaseConverter {
         return parseWord(word_arr, start + 1, end, current, total);
     }
 
-    protected Map<String, String> reverseMap(Map<String, String> map) {
+    private Map<String, String> reverseMap(Map<String, String> map) {
         Map<String, String> reversed = new HashMap<>();
 
         for (String key : map.keySet()) {

@@ -1,16 +1,16 @@
 package com.mustafahakan.Operations;
 
-import com.mustafahakan.Converters.BaseWordToIntegerConverter;
+import com.mustafahakan.Converters.WordToIntegerConverter;
 import com.mustafahakan.Converters.ConverterFactory;
-import com.mustafahakan.Converters.BaseIntegerToWordConverter;
+import com.mustafahakan.Converters.IntegerToWordConverter;
 import com.mustafahakan.LanguageSettings;
 
 public abstract class Operation {
 
     private ConverterFactory converterFactory = new ConverterFactory();
 
-    private BaseWordToIntegerConverter wordToIntegerConverter;
-    private BaseIntegerToWordConverter integerToWordConverter;
+    private WordToIntegerConverter wordToIntegerConverter;
+    private IntegerToWordConverter integerToWordConverter;
 
     public Operation() {
         wordToIntegerConverter = converterFactory.createWordToIntegerConverter(LanguageSettings.selectedLanguage);

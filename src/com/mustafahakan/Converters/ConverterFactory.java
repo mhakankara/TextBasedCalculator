@@ -1,23 +1,25 @@
 package com.mustafahakan.Converters;
 
+import com.mustafahakan.Converters.Dictionaries.EnglishDictionary;
+import com.mustafahakan.Converters.Dictionaries.TurkishDictionary;
 import com.mustafahakan.Language;
 
 public class ConverterFactory {
-    public BaseWordToIntegerConverter createWordToIntegerConverter(Language language) {
+    public WordToIntegerConverter createWordToIntegerConverter(Language language) {
         switch (language) {
             case ENGLISH:
-                return new EnglishWordToIntegerConverter();
+                return new WordToIntegerConverter(new EnglishDictionary());
             default:
-                return new TurkishWordToIntegerConverter();
+                return new WordToIntegerConverter(new TurkishDictionary());
         }
     }
 
-    public BaseIntegerToWordConverter createIntegerToWordConverter(Language language) {
+    public IntegerToWordConverter createIntegerToWordConverter(Language language) {
         switch (language) {
             case ENGLISH:
-                return new IntegerToEnglishWordConverter();
+                return new IntegerToWordConverter(new EnglishDictionary());
             default:
-                return new IntegerToTurkishWordConverter();
+                return new IntegerToWordConverter(new TurkishDictionary());
         }
     }
 }

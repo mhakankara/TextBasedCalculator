@@ -1,26 +1,28 @@
 package com.mustafahakan.Converters;
 
+import com.mustafahakan.Converters.Dictionaries.AbstractDictionary;
+
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class BaseIntegerToWordConverter extends BaseConverter {
+public class IntegerToWordConverter extends BaseConverter {
 
     // Constructor
-    public BaseIntegerToWordConverter() {
-        super();
+    public IntegerToWordConverter(AbstractDictionary dictionary) {
+        super(dictionary);
     }
 
     @Override
     protected void initMaps() {
         if(dictionary != null) {
             decimals = dictionary.getDecimals();
-            ties = dictionary.getTies();
-            digits = dictionary.getDigits();
+            tys = dictionary.getTys();
+            units = dictionary.getUnits();
         }
     }
 
     // Methods
-    public final String numberToWords(int num) {
+    public String numberToWords(int num) {
         // Parse the input integer
         char[] str_num = Integer.toString(num).toCharArray();
 
@@ -39,7 +41,7 @@ public abstract class BaseIntegerToWordConverter extends BaseConverter {
         return parsed_str.toString();
     }
 
-    protected void parseNumber(char[] str_num, int start, int end, List<String> parsed) {
+    private void parseNumber(char[] str_num, int start, int end, List<String> parsed) {
         int N = end - start;
 
         if (N == 0) {
@@ -53,12 +55,17 @@ public abstract class BaseIntegerToWordConverter extends BaseConverter {
         if (first.equals("0")) {
             parseNumber(str_num, start + 1, end, parsed);
         } else if (N == 1) {
-            parsed.add(digits.get(first));
+            parsed.add(units.get(first));
         } else if (N == 2) {
-            parsed.add(ties.get(first));
-            parseNumber(str_num, start + 1, end, parsed);
+            String firstTwo = first + str_num[start + 1];
+            if (units.containsKey(firstTwo)) {
+                parsed.add(units.get(firstTwo));
+            } else {
+                parsed.add(tys.get(first));
+                parseNumber(str_num, start + 1, end, parsed);
+            }
         } else if (decimals.containsKey(Integer.toString(N - 1))) {
-            parsed.add(digits.get(first));
+            parsed.add(units.get(first));
             parsed.add(decimals.get(Integer.toString(N - 1)));
             parseNumber(str_num, start + 1, end, parsed);
         } else {
@@ -69,7 +76,7 @@ public abstract class BaseIntegerToWordConverter extends BaseConverter {
 
     }
 
-    protected final int findPower(int numDigits) {
+    private final int findPower(int numDigits) {
         return 3 * ((numDigits - 4) / 3 + 1);
     }
 }

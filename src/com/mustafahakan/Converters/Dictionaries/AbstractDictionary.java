@@ -3,8 +3,8 @@ package com.mustafahakan.Converters.Dictionaries;
 import java.util.Map;
 
 public abstract class AbstractDictionary {
-    protected Map<String, String> ties;
-    protected Map<String, String> digits;
+    protected Map<String, String> tys;
+    protected Map<String, String> units;
     protected Map<String, String> decimals;
 
     public AbstractDictionary() {
@@ -17,11 +17,11 @@ public abstract class AbstractDictionary {
         return decimals;
     }
 
-    public Map<String, String> getTies() {
-        return ties;
+    public Map<String, String> getTys() {
+        return tys;
     }
 
-    public Map<String, String> getDigits() {
-        return digits;
+    public Map<String, String> getUnits() {
+        return units;
     }
 }
