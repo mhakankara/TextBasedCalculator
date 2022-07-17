@@ -7,6 +7,9 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.mustafahakan.Language.ENGLISH;
+import static com.mustafahakan.Language.TURKISH;
+
 /**
  * Created by Mustafa Hakan Kara on 17/07/2022
  */
@@ -19,9 +22,9 @@ public class TextBasedCalculator extends JFrame {
 
     // Properties
     private JPanel mainPanel;
-
     private Map<String, String> turkishVocabulary;
-
+    private String operand1, operand2;
+    private String result;
 
     // Constructor
     public TextBasedCalculator() {
@@ -63,12 +66,13 @@ public class TextBasedCalculator extends JFrame {
         Operation[] operations = {new Addition(), new Subtraction(),
                 new Multiplication(), new Division()};
 
+        operand1 = operand1TF.getText();
+        operand2 = operand2TF.getText();
+
         for (final Operation operation : operations) {
             JButton operationButton = new JButton(translate(operation.getName()));
             operationButton.addActionListener(e -> {
-                String operand1 = operand1TF.getText();
-                String operand2 = operand2TF.getText();
-                String result = operation.operate(new String[]{operand1, operand2});
+                result = operation.operate(new String[]{operand1, operand2});
                 String resultString = translate("Result") + ": " + result;
                 System.out.println(resultString);
                 resultLabel.setText(resultString);
@@ -76,23 +80,31 @@ public class TextBasedCalculator extends JFrame {
             buttonPanel.add(operationButton);
         }
 
-        JButton languageButton = new JButton();
-        if (LanguageSettings.selectedLanguage == Language.TURKISH) {
-            languageButton.setText("EN");
-        } else {
-            languageButton.setText("TR");
-        }
+        JButton languageButton = createLanguageButton();
 
         languageButton.addActionListener(e -> {
+            Language src = LanguageSettings.selectedLanguage;
+            Language dest;
+
             switch (LanguageSettings.selectedLanguage) {
-                case TURKISH:
-                    LanguageSettings.setLanguage(Language.ENGLISH);
-                    break;
                 case ENGLISH:
-                    LanguageSettings.setLanguage(Language.TURKISH);
+                    dest = TURKISH;
+                    break;
+                default: TURKISH:
+                    dest = ENGLISH;
             }
+
+            LanguageSettings.setLanguage(dest);
+/*            String newOperand1 = translateTextBasedNumber(operand1, src, dest);
+            String newOperand2 = translateTextBasedNumber(operand2, src, dest);
+            String newResult = translateTextBasedNumber(result, src, dest);*/
+
             remove(mainPanel);
             createPanel();
+/*            operand1TF.setText(newOperand1);
+            operand2TF.setText(newOperand2);
+            resultLabel.setText(newResult);*/
+
             revalidate();
         });
 
@@ -103,6 +115,18 @@ public class TextBasedCalculator extends JFrame {
         mainPanel.add(resultPanel);
 
         add(mainPanel);
+    }
+
+    private JButton createLanguageButton() {
+        JButton languageButton = new JButton();
+        if (LanguageSettings.selectedLanguage == TURKISH) {
+            languageButton.setText("EN");
+        } else {
+            languageButton.setText("TR");
+        }
+
+
+        return languageButton;
     }
 
     private void initVocabularies() {
@@ -124,6 +148,10 @@ public class TextBasedCalculator extends JFrame {
             default:
                 return turkishVocabulary.getOrDefault(word, word);
         }
+    }
+
+    private String translateTextBasedNumber(String word, Language src, Language dest) {
+        return new Identity(src, dest).operate(new String[] {word});
     }
 
 }

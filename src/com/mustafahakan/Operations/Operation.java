@@ -3,6 +3,7 @@ package com.mustafahakan.Operations;
 import com.mustafahakan.Converters.WordToIntegerConverter;
 import com.mustafahakan.Converters.ConverterFactory;
 import com.mustafahakan.Converters.IntegerToWordConverter;
+import com.mustafahakan.Language;
 import com.mustafahakan.LanguageSettings;
 
 public abstract class Operation {
@@ -13,8 +14,16 @@ public abstract class Operation {
     private IntegerToWordConverter integerToWordConverter;
 
     public Operation() {
-        wordToIntegerConverter = converterFactory.createWordToIntegerConverter(LanguageSettings.selectedLanguage);
-        integerToWordConverter = converterFactory.createIntegerToWordConverter(LanguageSettings.selectedLanguage);
+        wordToIntegerConverter =
+                converterFactory.createWordToIntegerConverter(LanguageSettings.selectedLanguage);
+
+        integerToWordConverter =
+                converterFactory.createIntegerToWordConverter(LanguageSettings.selectedLanguage);
+    }
+
+    public Operation(Language src, Language dest) {
+        wordToIntegerConverter = converterFactory.createWordToIntegerConverter(src);
+        integerToWordConverter = converterFactory.createIntegerToWordConverter(dest);
     }
 
     // Methods
