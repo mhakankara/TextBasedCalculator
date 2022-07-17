@@ -8,7 +8,8 @@ public class Subtraction extends Operation {
             throw new IllegalArgumentException("Number of operands must be exactly 2!");
         }
 
-        return operands[0] - operands[1];
+        int result = operands[0] - operands[1];
+        return Math.max(result, 0);
     }
 
     @Override

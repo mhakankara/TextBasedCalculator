@@ -1,5 +1,6 @@
 package com.mustafahakan.Converters.Dictionaries;
 
+import java.util.Locale;
 import java.util.Map;
 
 public abstract class AbstractDictionary {
@@ -12,6 +13,7 @@ public abstract class AbstractDictionary {
     }
 
     protected abstract void initDictionary();
+    public abstract Locale getLocale();
 
     public Map<String, String> getDecimals() {
         return decimals;

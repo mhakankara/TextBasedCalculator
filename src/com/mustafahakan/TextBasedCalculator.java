@@ -18,13 +18,13 @@ public class TextBasedCalculator extends JFrame {
     private static final int PANEL_WIDTH = 600;
     private static final int PANEL_HEIGHT = 100;
     private static final int TEXT_FIELD_SIZE = 16;
-    private static final String PROJECT_NAME = "Text-Based Calculator";
+    private static final String PROJECT_NAME = "Text-Based Calculator (MHK)";
 
     // Properties
     private JPanel mainPanel;
     private Map<String, String> turkishVocabulary;
-    private String operand1, operand2;
-    private String result;
+    private JTextField operand1TF, operand2TF;
+    private JLabel resultLabel;
 
     // Constructor
     public TextBasedCalculator() {
@@ -48,14 +48,17 @@ public class TextBasedCalculator extends JFrame {
 
         String operand1LabelString = translate("First Number");
         String operand2LabelString = translate("Second Number");
-        final JTextField operand1TF = new JTextField(TEXT_FIELD_SIZE);
-        final JTextField operand2TF = new JTextField(TEXT_FIELD_SIZE);
+        operand1TF = new JTextField(TEXT_FIELD_SIZE);
+        operand2TF = new JTextField(TEXT_FIELD_SIZE);
         JLabel operand1Label = new JLabel(operand1LabelString + ": ");
         JLabel operand2Label = new JLabel(operand2LabelString + ": ");
 
-        final JLabel resultLabel = new JLabel();
+        final JLabel resultTextLabel = new JLabel(translate("Result") + ":");
+        resultLabel = new JLabel();
+
         JPanel resultPanel = new JPanel();
         resultPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        resultPanel.add(resultTextLabel);
         resultPanel.add(resultLabel);
 
         tfPanel.add(operand1Label);
@@ -66,49 +69,19 @@ public class TextBasedCalculator extends JFrame {
         Operation[] operations = {new Addition(), new Subtraction(),
                 new Multiplication(), new Division()};
 
-        operand1 = operand1TF.getText();
-        operand2 = operand2TF.getText();
-
         for (final Operation operation : operations) {
             JButton operationButton = new JButton(translate(operation.getName()));
             operationButton.addActionListener(e -> {
-                result = operation.operate(new String[]{operand1, operand2});
-                String resultString = translate("Result") + ": " + result;
-                System.out.println(resultString);
-                resultLabel.setText(resultString);
+                String operand1 = operand1TF.getText();
+                String operand2 = operand2TF.getText();
+                String result = operation.operate(new String[]{operand1, operand2});
+                resultLabel.setText(result);
+                System.out.println(resultTextLabel.getText() + resultLabel.getText());
             });
             buttonPanel.add(operationButton);
         }
 
-        JButton languageButton = createLanguageButton();
-
-        languageButton.addActionListener(e -> {
-            Language src = LanguageSettings.selectedLanguage;
-            Language dest;
-
-            switch (LanguageSettings.selectedLanguage) {
-                case ENGLISH:
-                    dest = TURKISH;
-                    break;
-                default: TURKISH:
-                    dest = ENGLISH;
-            }
-
-            LanguageSettings.setLanguage(dest);
-/*            String newOperand1 = translateTextBasedNumber(operand1, src, dest);
-            String newOperand2 = translateTextBasedNumber(operand2, src, dest);
-            String newResult = translateTextBasedNumber(result, src, dest);*/
-
-            remove(mainPanel);
-            createPanel();
-/*            operand1TF.setText(newOperand1);
-            operand2TF.setText(newOperand2);
-            resultLabel.setText(newResult);*/
-
-            revalidate();
-        });
-
-        buttonPanel.add(languageButton);
+        buttonPanel.add(createLanguageButton());
 
         mainPanel.add(tfPanel);
         mainPanel.add(buttonPanel);
@@ -119,12 +92,38 @@ public class TextBasedCalculator extends JFrame {
 
     private JButton createLanguageButton() {
         JButton languageButton = new JButton();
+
         if (LanguageSettings.selectedLanguage == TURKISH) {
             languageButton.setText("EN");
         } else {
             languageButton.setText("TR");
         }
 
+        languageButton.addActionListener(e -> {
+            Language src = LanguageSettings.selectedLanguage;
+            Language dest;
+
+            switch (src) {
+                case ENGLISH:
+                    dest = TURKISH;
+                    break;
+                default:
+                    dest = ENGLISH;
+            }
+
+            LanguageSettings.setLanguage(dest);
+            String newOperand1 = translateTextBasedNumber(operand1TF.getText(), src, dest);
+            String newOperand2 = translateTextBasedNumber(operand2TF.getText(), src, dest);
+            String newResult = translateTextBasedNumber(resultLabel.getText(), src, dest);
+
+            remove(mainPanel);
+            createPanel();
+            operand1TF.setText(newOperand1);
+            operand2TF.setText(newOperand2);
+            resultLabel.setText(newResult);
+
+            revalidate();
+        });
 
         return languageButton;
     }
@@ -151,6 +150,10 @@ public class TextBasedCalculator extends JFrame {
     }
 
     private String translateTextBasedNumber(String word, Language src, Language dest) {
+        if(word == null || word.isEmpty()) {
+            return "";
+        }
+
         return new Identity(src, dest).operate(new String[] {word});
     }
 

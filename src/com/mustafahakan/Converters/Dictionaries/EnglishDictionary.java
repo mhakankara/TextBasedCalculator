@@ -1,6 +1,7 @@
 package com.mustafahakan.Converters.Dictionaries;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.mustafahakan.Converters.Dictionaries.Utils.strToMap;
@@ -28,12 +29,13 @@ public class EnglishDictionary extends AbstractDictionary {
         // Generate teens and tys
         for (int digit = 0; digit < Utils.NUM_DIGITS; digit++) {
             String str_digit = Integer.toString(digit);
+            String teen = Integer.toString(10 + digit);
             if (irregulars.containsKey(str_digit)) {
-                units.put(10 + str_digit, irregulars.get(str_digit));
+                units.put(teen, irregulars.get(str_digit));
             } else if (prefixes.containsKey(str_digit)) {
-                units.put(10 + str_digit, prefixes.get(str_digit) + "teen");
+                units.put(teen, prefixes.get(str_digit) + "teen");
             } else {
-                units.put(10 + str_digit, units.get(str_digit) + "teen");
+                units.put(teen, units.get(str_digit) + "teen");
             }
         }
 
@@ -45,6 +47,11 @@ public class EnglishDictionary extends AbstractDictionary {
                 tys.put(str_digit, units.get(str_digit) + "ty");
             }
         }
+    }
+
+    @Override
+    public Locale getLocale() {
+        return new Locale("en", "US");
     }
 }
 

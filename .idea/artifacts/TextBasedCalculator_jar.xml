@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="TextBasedCalculator:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/TextBasedCalculator_jar</output-path>
+    <root id="archive" name="TextBasedCalculator.jar">
+      <element id="module-output" name="TextBasedCalculator" />
+    </root>
+  </artifact>
+</component>

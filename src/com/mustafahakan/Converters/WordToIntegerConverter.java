@@ -16,7 +16,7 @@ public class WordToIntegerConverter extends BaseConverter {
     // Constructor
     public WordToIntegerConverter(AbstractDictionary dictionary) {
         super(dictionary);
-        this.locale = new Locale("en", "US");
+        this.locale = dictionary.getLocale();
     }
 
     // Methods
