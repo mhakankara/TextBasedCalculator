@@ -3,10 +3,10 @@ package com.ekinokssoftware.Converters;
 import java.util.LinkedList;
 import java.util.List;
 
-public class IntegerToWordConverter extends BaseConverter {
+public class IntegerToTurkishWordConverter extends BaseTurkishConverter {
 
     // Constructor
-    public IntegerToWordConverter() {
+    public IntegerToTurkishWordConverter() {
         super();
     }
 
@@ -43,13 +43,8 @@ public class IntegerToWordConverter extends BaseConverter {
         } else if (N == 1) {
             parsed.add(digits.get(first));
         } else if (N == 2) {
-            if (first.equals("1")) {
-                String second = String.valueOf(str_num[start + 1]);
-                parsed.add(teens.get(second));
-            } else {
-                parsed.add(ties.get(first));
-                parseNumber(str_num, start + 1, end, parsed);
-            }
+            parsed.add(ties.get(first));
+            parseNumber(str_num, start + 1, end, parsed);
         } else if (decimals.containsKey(Integer.toString(N - 1))) {
             parsed.add(digits.get(first));
             parsed.add(decimals.get(Integer.toString(N - 1)));

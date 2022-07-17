@@ -1,7 +1,6 @@
 package com.ekinokssoftware.Converters;
 
-import java.util.HashMap;
-import java.util.Map;
+import static java.lang.Integer.parseInt;
 
 public class WordToIntegerConverter extends BaseConverter {
 
@@ -15,70 +14,69 @@ public class WordToIntegerConverter extends BaseConverter {
     protected void initDictionaries() {
         initCoreDictionaries();
 
-        decimals = strToMap("{'Hundred': '100', 'Thousand': '1000', " +
+        decimals = Utils.strToMap("{'Hundred': '100', 'Thousand': '1000', " +
                 "'Million': '1000000', 'Billion': '1000000000'}");
 
         // Generate teens and ties
-        teens = reverseMap(teens);
-        ties = reverseMap(ties);
-        digits = reverseMap(digits);
+        teens = Utils.reverseMap(teens);
+        ties = Utils.reverseMap(ties);
+        digits = Utils.reverseMap(digits);
     }
 
     public int wordsToNumbers(String word_num) {
         // Parse the input integer
         String[] word_arr = word_num.split(" ");
 
-        return parseWord(word_arr, 0, word_arr.length);
+        return parseWord(word_arr, 0, word_arr.length, 0, 0);
     }
 
-    private int parseWord(String[] word_arr, int start, int end) {
+    private int parseWord(String[] word_arr, int start, int end, int current, int total) {
 
         int N = end - start;
 
         if (N <= 0) {
-            return 0;
-        }
-
-        if (N > 1 && decimals.containsKey(word_arr[start + 1])) {
-            int second = Integer.parseInt(decimals.get(word_arr[start + 1]));
-            if(second == 100 && N > 2) {
-                String third = word_arr[start + 2];
-                if (decimals.containsKey(third)) {
-                    int decimal = second * Integer.parseInt(decimals.get(third));
-                    return parseWord(word_arr, start, start + 1) * decimal +
-                            parseWord(word_arr, start + 3, end);
-                }
-            }
-
-            return parseWord(word_arr, start, start + 1) * Integer.parseInt(decimals.get(second))
-                    + parseWord(word_arr, start + 2, end);
+            return current + total;
         }
 
         String first = word_arr[start];
+        int value = 0;
 
-        if (ties.containsKey(first)) {
-            return 10 * Integer.parseInt(ties.get(first)) + parseWord(word_arr, start + 1, end);
+        if (decimals.containsKey(first)) {
+            value = parseInt(decimals.get(first));
+
+            if (current == 0) {
+                current = 1;
+            }
+
+            if (current < 1000) {
+                current *= value;
+            }
+
+            if (current >= 1000) {
+                total += current;
+                current = 0;
+            }
         }
 
-        if (teens.containsKey(first)) {
-            return 10 + Integer.parseInt(teens.get(first));
+        else {
+            if (teens.containsKey(first)) {
+                value = 10 + parseInt(teens.get(first));
+
+            }
+
+            else if (ties.containsKey(first)) {
+                value = 10 * parseInt(ties.get(first));
+            }
+
+
+            else if (digits.containsKey(first)) {
+                value = parseInt(digits.get(first));
+            }
+
+            current += value;
         }
 
-        if (digits.containsKey(first)) {
-            return Integer.parseInt(digits.get(first));
-        }
-
-        return -1;
+        return parseWord(word_arr, start + 1, end, current, total) ;
     }
 
-    private Map<String, String> reverseMap(Map<String, String> map) {
-        Map<String, String> reversed = new HashMap<>();
-
-        for (String key : map.keySet()) {
-            String value = map.get(key);
-            reversed.put(value, key);
-        }
-
-        return reversed;
-    }
 }
