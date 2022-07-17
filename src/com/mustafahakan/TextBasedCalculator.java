@@ -77,19 +77,19 @@ public class TextBasedCalculator extends JFrame {
         }
 
         JButton languageButton = new JButton();
-        if (Locale.selectedLanguage == Language.TURKISH) {
+        if (LanguageSettings.selectedLanguage == Language.TURKISH) {
             languageButton.setText("EN");
         } else {
             languageButton.setText("TR");
         }
 
         languageButton.addActionListener(e -> {
-            switch (Locale.selectedLanguage) {
+            switch (LanguageSettings.selectedLanguage) {
                 case TURKISH:
-                    Locale.setLanguage(Language.ENGLISH);
+                    LanguageSettings.setLanguage(Language.ENGLISH);
                     break;
                 case ENGLISH:
-                    Locale.setLanguage(Language.TURKISH);
+                    LanguageSettings.setLanguage(Language.TURKISH);
             }
             remove(mainPanel);
             createPanel();
@@ -118,7 +118,7 @@ public class TextBasedCalculator extends JFrame {
     }
 
     private String translate(String word) {
-        switch (Locale.selectedLanguage) {
+        switch (LanguageSettings.selectedLanguage) {
             case ENGLISH:
                 return word;
             default:

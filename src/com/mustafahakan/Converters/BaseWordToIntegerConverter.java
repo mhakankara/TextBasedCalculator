@@ -1,15 +1,20 @@
 package com.mustafahakan.Converters;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import static java.lang.Integer.parseInt;
 
-public class BaseWordToIntegerConverter extends BaseConverter {
+public abstract class BaseWordToIntegerConverter extends BaseConverter {
+
+    // Property
+    public Locale locale;
 
     // Constructor
     public BaseWordToIntegerConverter() {
         super();
+        this.locale = new Locale("en", "US");
     }
 
     // Methods
@@ -23,11 +28,13 @@ public class BaseWordToIntegerConverter extends BaseConverter {
     }
 
     private void capitalize(String[] words) {
+
         for (int i = 0; i < words.length; i++) {
             String word = words[i];
 
             if (word != null && !word.isEmpty()) {
-                words[i] = word.substring(0, 1).toUpperCase() + word.substring(1);
+                words[i] = word.substring(0, 1).toUpperCase(locale)
+                        + word.substring(1).toLowerCase(locale);
             }
         }
     }
