@@ -33,7 +33,7 @@ public class IntegerToWordConverter extends BaseConverter {
         StringBuilder parsed_str = new StringBuilder();
 
         if (parsed.size() == 0) {
-            return "Zero";
+            return dictionary.getZero();
         }
 
         for (int i = 0; i < parsed.size() - 1; i++) {

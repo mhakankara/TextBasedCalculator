@@ -7,6 +7,7 @@ public abstract class AbstractDictionary {
     protected Map<String, String> tys;
     protected Map<String, String> units;
     protected Map<String, String> decimals;
+    protected String zero;
 
     public AbstractDictionary() {
         initDictionary();
@@ -14,6 +15,10 @@ public abstract class AbstractDictionary {
 
     protected abstract void initDictionary();
     public abstract Locale getLocale();
+
+    public String getZero() {
+        return zero;
+    }
 
     public Map<String, String> getDecimals() {
         return decimals;

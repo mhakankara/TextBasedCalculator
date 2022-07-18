@@ -14,6 +14,8 @@ public class EnglishDictionary extends AbstractDictionary {
 
     @Override
     protected void initDictionary() {
+        zero = "Zero";
+
         Map<String, String> irregulars =
                 Utils.strToMap("{0: 'Ten', 1: 'Eleven', 2: 'Twelve', 4: 'Fourteen'}");
         Map<String, String> prefixes =
